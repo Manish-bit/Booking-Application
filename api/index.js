@@ -27,7 +27,12 @@ mongoose.connection.on("connected", () => {
   console.log("mongoDD connected");
 });
 
+//middlewares
+app.use(express.json());
+
 app.listen(8800, () => {
   connectDB();
   console.log("Server is running");
 });
+
+app.use("/api/auth", authRoutes);
