@@ -2,6 +2,9 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import authRoutes from "./routes/auth.js";
+import hotelRoutes from "./routes/hotels.js";
+import userRoutes from "./routes/hotels.js";
+import roomRoutes from "./routes/rooms.js";
 
 const app = express();
 
@@ -36,3 +39,6 @@ app.listen(8800, () => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/hotels", hotelRoutes);
+app.use("/api/rooms", roomRoutes);
