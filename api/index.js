@@ -42,3 +42,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/hotels", hotelRoutes);
 app.use("/api/rooms", roomRoutes);
+
+app.use((err, req, res, next) => {
+  res.status(500).json("Hello from the error handler");
+});
