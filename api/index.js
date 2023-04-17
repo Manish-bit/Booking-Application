@@ -43,6 +43,14 @@ app.use("/api/users", userRoutes);
 app.use("/api/hotels", hotelRoutes);
 app.use("/api/rooms", roomRoutes);
 
+//error handling middleware
 app.use((err, req, res, next) => {
-  res.status(500).json("Hello from the error handler");
+  const errorStatusCode = err.status || 500;
+  const errorMessage = err.message || "Something went wrong";
+  res.status(errorStatusCode).json({
+    success: false,
+    status: false,
+    message: errorMessage,
+    stack: err.stack,
+  });
 });
