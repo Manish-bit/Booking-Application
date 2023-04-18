@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
+import { createError } from "../utils/error.js";
 export const register = async (req, res, next) => {
   try {
     const salt = await bcrypt.genSalt(10);
@@ -18,7 +19,7 @@ export const register = async (req, res, next) => {
 
 export const login = async (req, res, next) => {
   try {
-    const user = await User.findOne({ email: req.body.email });
+    const user = await User.findOne({ username: req.body.username });
     if (user) {
       const comparePass = await bcrypt.compare(
         req.body.password,
@@ -28,10 +29,10 @@ export const login = async (req, res, next) => {
         const { password, ...info } = user._doc;
         return res.status(200).json(info);
       } else {
-        return res.status(401).json("username or password doesnot match");
+        return next(createError(400, "Wrong username or password"));
       }
     } else {
-      return res.status(401).json("Username or password doesnot match");
+      return next(createError(400, "Wrong username or password"));
     }
   } catch (error) {
     next(error);
