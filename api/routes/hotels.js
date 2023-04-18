@@ -22,7 +22,6 @@ router.delete("/:id", deleteHotel);
 router.get("/:id", getHotel);
 
 //GET ALL HOTEL
-
 router.get("/", getAllHotel);
 
 export default router;
