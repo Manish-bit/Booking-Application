@@ -27,11 +27,14 @@ export const login = async (req, res, next) => {
         user.password
       );
       if (comparePass) {
+        //creating a jwt token
         const token = jwt.sign(
           { id: user._id, isAdmin: user.isAdmin },
           process.env.JWT
         );
         const { password, isAdmin, ...info } = user._doc;
+
+        //sending a jwt token as a cookie
         res
           .cookie("access_token", token, {
             httpOnly: true,
