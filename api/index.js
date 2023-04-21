@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import authRoutes from "./routes/auth.js";
 import hotelRoutes from "./routes/hotels.js";
-import userRoutes from "./routes/hotels.js";
+import userRoutes from "./routes/users.js";
 import roomRoutes from "./routes/rooms.js";
 
 const app = express();
