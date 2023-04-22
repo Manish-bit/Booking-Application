@@ -18,6 +18,7 @@ export const updateHotel = async (req, res, next) => {
       { $set: req.body },
       { new: true }
     );
+    console.log(updatedHotel);
     res.status(200).json(updatedHotel);
   } catch (error) {
     // res.status(500).json(error);
