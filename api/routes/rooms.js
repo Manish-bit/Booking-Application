@@ -1,15 +1,18 @@
 import express from "express";
 import {
-  deleteUser,
-  getAllUser,
-  getUser,
-  updateUser,
-} from "../controllers/userController.js";
+  createRoom,
+  deleteRoom,
+  getAllRooms,
+  getRoom,
+  updateRoom,
+} from "../controllers/roomController.js";
+import { verifyAdmin } from "../utils/verifyToken.js";
 
 const router = express.Router();
 
-router.put("/:id", updateUser);
-router.delete("/:id", deleteUser);
-router.get("/:id", getUser);
-router.get("/", getAllUser);
+router.post("/:id", verifyAdmin, createRoom);
+router.put("/:id", verifyAdmin, updateRoom);
+router.delete("/:id", verifyAdmin, deleteRoom);
+router.get("/:id", verifyAdmin, getRoom);
+router.get("/", getAllRooms);
 export default router;

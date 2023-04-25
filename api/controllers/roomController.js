@@ -1,16 +1,18 @@
-import RoomModel from "../models/Room";
-import HotelModel from "../models/Hotel";
-import { createError } from "../utils/error";
+import RoomModel from "../models/Room.js";
+import HotelModel from "../models/Hotel.js";
+import { createError } from "../utils/error.js";
 
 export const createRoom = async (req, res, next) => {
   const hotelId = req.params.hotelid;
+  console.log(hotelId);
   const room = new RoomModel(req.body);
   try {
     const savedRoom = await room.save();
     try {
-      await HotelModel.findByIdAndUpdate(hotelId, {
+      const updateHotel = await HotelModel.findByIdAndUpdate(hotelId, {
         $push: { rooms: savedRoom._id },
       });
+      console.log(updateHotel);
     } catch (error) {
       next(createError(error));
     }
