@@ -4,7 +4,6 @@ import { createError } from "../utils/error.js";
 
 export const createRoom = async (req, res, next) => {
   const hotelId = req.params.hotelid;
-  console.log(hotelId);
   const room = new RoomModel(req.body);
   try {
     const savedRoom = await room.save();
@@ -12,7 +11,6 @@ export const createRoom = async (req, res, next) => {
       const updateHotel = await HotelModel.findByIdAndUpdate(hotelId, {
         $push: { rooms: savedRoom._id },
       });
-      console.log(updateHotel);
     } catch (error) {
       next(createError(error));
     }
@@ -39,9 +37,21 @@ export const updateRoom = async (req, res, next) => {
 };
 
 export const deleteRoom = async (req, res, next) => {
+  const hotelId = req.params.hotelid;
   try {
     await RoomModel.findByIdAndDelete(req.params.id);
-    res.status(200).json("User deleted sucessfully");
+    try {
+      await HotelModel.findByIdAndUpdate(
+        hotelId,
+        {
+          $pull: { rooms: req.params.id },
+        },
+        { new: true }
+      );
+    } catch (error) {
+      next(error);
+    }
+    res.status(200).json("Room has been deleted");
   } catch (error) {
     next(error);
   }
